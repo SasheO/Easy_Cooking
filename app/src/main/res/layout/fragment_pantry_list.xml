@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         >
 
-    <TextView
+        <TextView
         android:id="@+id/Title"
         style="@style/FragmentTitleStyle"
         android:layout_width="match_parent"
@@ -16,29 +16,37 @@
         android:layout_toStartOf="@id/ibAddPantryItem"
         android:text="Pantry" />
 
-        <ImageButton
-            android:id="@+id/ibAddPantryItem"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:background="@null"
-            android:contentDescription="Add new item button"
-            app:srcCompat="@android:drawable/ic_input_add" />
+    <ImageButton
+        android:id="@+id/ibAddPantryItem"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:background="@null"
+        android:contentDescription="Add new item button"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
-    <Switch
-        android:id="@+id/switchSortAccordingToCategory"
+    <TextView
+        android:id="@+id/tvSortAccordingTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Title"
         android:layout_alignParentStart="true"
-        android:text="Sort according to category"
-        android:textColor="@color/dark_blue"/>
+        android:text="Sort according to: "
+        android:textColor="@color/dark_blue" />
+
+    <Spinner
+        android:id="@+id/spinnerSortAccordingTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvSortAccordingTo"
+        android:layout_alignBottom="@id/tvSortAccordingTo"
+        android:layout_toEndOf="@id/tvSortAccordingTo" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPantryList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/switchSortAccordingToCategory" />
+        android:layout_below="@id/tvSortAccordingTo" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="60dp"
@@ -51,6 +59,7 @@
         android:backgroundTint="@color/light_grey"
         android:src="@android:drawable/ic_search_category_default"
         app:fabSize="normal" />
+
 
 
 

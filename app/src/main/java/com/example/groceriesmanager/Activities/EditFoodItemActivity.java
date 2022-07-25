@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -47,9 +48,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_food_item);
 
+        TextView etFoodMeasure = findViewById(R.id.etFoodMeasure);
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
-        Spinner spinnerFoodMeasure = findViewById(R.id.spinnerIngredientMeasure);
+        Spinner spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
         Spinner spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnCancel = findViewById(R.id.btnCancel);
@@ -57,12 +59,21 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ImageButton ibDatePicker = findViewById(R.id.ibDatePicker);
         ImageButton ibRemoveDate = findViewById(R.id.ibRemoveDate);
         EditText etExpiryDate = findViewById(R.id.etExpiryDate);
+        TextView tvExpiryLabel = findViewById(R.id.tvExpiryLabel);
 
         selectedYear = today.getYear()+1900;  // the addition is because only three numbers are returned and any 21sy century year starts with 1
         selectedMonth = today.getMonth();
         selectedDayOfMonth = today.getDate();
 
         String process = getIntent().getStringExtra("process");
+        String type = getIntent().getStringExtra("type");
+
+        if (!Objects.equals(type, "pantry")){ // only let user edit expiry date if the item is a pantry item
+            ibDatePicker.setVisibility(View.GONE);
+            ibRemoveDate.setVisibility(View.GONE);
+            etExpiryDate.setVisibility(View.GONE);
+            tvExpiryLabel.setVisibility(View.GONE);
+        }
 
 
         // array adapter for rendering items into the food measure spinner
@@ -81,7 +92,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
             // todo: fix this spinner measure below. it does not select the food type when opened
-            spinnerFoodMeasure.setSelection(foodMeasureAdapter.getPosition(foodItem.getMeasure()));
+            etFoodMeasure.setText(foodItem.getMeasure());
             if (foodItem.getExpiryDate()!=null){
                 int year = foodItem.getExpiryDate().getYear()+1900; // the addition is because only three numbers are returned and any 21st century year starts with 1
                 int month = foodItem.getExpiryDate().getMonth();
@@ -92,6 +103,18 @@ public class EditFoodItemActivity extends AppCompatActivity {
                 etExpiryDate.setText(year + "/" + month + "/" + day);
             }
         }
+
+//        spinnerFoodMeasure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                etFoodMeasure.setText(spinnerFoodCategory.getSelectedItem().toString());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,9 +128,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
                                           int monthOfYear, int dayOfMonth) {
 
                         // format date to yyyy/mm/dd format
-                        etExpiryDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+                        etExpiryDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
                         selectedYear = year;
-                        selectedMonth = monthOfYear + 1;
+                        selectedMonth = monthOfYear;
                         selectedDayOfMonth = dayOfMonth;
                     }
                 };
@@ -141,28 +164,32 @@ public class EditFoodItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Date expiryDate = null;
 
-                String type = getIntent().getStringExtra("type");
                 String foodName = etFoodName.getText().toString();
                 String foodQty = etFoodQty.getText().toString();
                 String expiryDateStr = etExpiryDate.getText().toString();
-                if (expiryDateStr!=null){
+                if (expiryDateStr!=null && !Objects.equals(expiryDateStr, "")){
+                    // todo: check if date format is valid i.e. must be yyyy/dd/mm or yyyy/d/m if the date or month is one digit
                     try {
                         expiryDate = formatter.parse(expiryDateStr);
+
+//                        Log.i(TAG, "today: " + today);
+//                        Log.i(TAG, "expiry date: " + expiryDate);
+                        if(expiryDate.compareTo(today)<0){ // if expiry date is set in future
+                            Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                     } catch (java.text.ParseException e) {
                         Log.e(TAG, "error formatting date: " + e.toString());
                         e.printStackTrace();
                     }
                 }
-                String foodMeasure = spinnerFoodMeasure.getSelectedItem().toString();
+                String foodMeasure = etFoodMeasure.getText().toString();
                 String foodCategory = Arrays.asList(getResources().getStringArray(R.array.food_categories)).get(spinnerFoodCategory.getSelectedItemPosition());
 
 
 
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
                     Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
-                }
-                else if (expiryDate.compareTo(today)<0){ // if expiry date is set in future
-                    Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
                 }
                 else{
                     // using FoodStruct so we do not need to keep altering the function signature of add/editFoodItem
@@ -213,9 +240,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem.remove(FoodItem.KEY_CATEGORY);
         }
         if (foodStruct.expiryDate!=null){
-            // todo: save date
             foodItem.setExpiryDate(foodStruct.expiryDate);
-            Log.i(TAG, "expiry date: " + foodItem.getExpiryDate().toString());
         }
         else {
             foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
@@ -255,7 +280,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
             newFoodItem.setCategory(foodStruct.foodCategory);
         }
         if (foodStruct.expiryDate!=null){
-            // todo: save date
             newFoodItem.setExpiryDate(foodStruct.expiryDate);
             Log.i(TAG, "expiry date: " + newFoodItem.getExpiryDate().toString());
         }

@@ -45,22 +45,9 @@
 
 
         <ImageButton
-            android:id="@+id/ibFoodItemSwitchList"
-            android:layout_width="53dp"
-            android:layout_height="49dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:background="@null"
-            android:contentDescription="button to switch item from grocery to pantry list or vice versa"
-            android:visibility="gone"
-            card_view:srcCompat="@android:drawable/stat_notify_sync"
-            card_view:tint="#716868" />
-
-        <ImageButton
             android:id="@+id/ibFoodItemDelete"
             android:layout_width="53dp"
             android:layout_height="49dp"
-            android:layout_below="@+id/ibFoodItemSwitchList"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="4dp"
@@ -91,6 +78,19 @@
             android:layout_toEndOf="@id/tvFoodItemQty"
             android:textSize="20sp"
             tools:text="ct" />
+
+        <TextView
+            android:id="@+id/tvExpiryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvFoodItemName"
+            android:layout_marginEnd="3dp"
+            android:layout_toStartOf="@id/ibFoodItemDelete"
+            android:layout_toEndOf="@+id/tvFoodItemMeasure"
+            android:textColor="@color/dark_blue"
+            android:gravity="right"
+            android:textSize="20sp"
+            tools:text="expiry date" />
 
     </RelativeLayout>
 

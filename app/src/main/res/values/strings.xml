@@ -40,4 +40,10 @@
         <item>Log Out</item>
     </string-array>
 
+    <string-array name="pantry_list_sort_options">
+        <item>default</item>
+        <item>category</item>
+        <item>expiry date</item>
+    </string-array>
+
 </resources>

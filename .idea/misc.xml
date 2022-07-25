@@ -24,7 +24,7 @@
         <entry key="app/src/main/res/layout/activity_video_player.xml" value="0.335" />
         <entry key="app/src/main/res/layout/flexbox_checkboxes.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/fragment_grocery_list.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_pantry_list.xml" value="0.19444444444444445" />
+        <entry key="app/src/main/res/layout/fragment_pantry_list.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_recipe_search.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_recipe_search2.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/fragment_saved_recipes.xml" value="0.1890625" />
@@ -32,7 +32,7 @@
         <entry key="app/src/main/res/layout/fragment_user_profile2.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/fragment_youtube_search.xml" value="0.19012345679012346" />
         <entry key="app/src/main/res/layout/item_food_category.xml" value="0.2171875" />
-        <entry key="app/src/main/res/layout/item_food_list.xml" value="0.21937321937321938" />
+        <entry key="app/src/main/res/layout/item_food_list.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_food_list2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_ingredient.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_procedure.xml" value="0.2171875" />

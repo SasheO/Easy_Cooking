@@ -29,9 +29,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class FoodListAdapter extends
@@ -42,6 +46,7 @@ public class FoodListAdapter extends
     private static final String TAG = "FoodListAdapter";
     // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
     private static Hashtable textToDrawableName = new Hashtable();
+    private PrettyTime p = new PrettyTime();
     // public because this is accessed in other class
     public List<FoodItem> selected = new ArrayList<>();
 
@@ -99,6 +104,7 @@ public class FoodListAdapter extends
         public CardView cvFoodItem;
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
+        public TextView tvExpiryDate;
         public ImageView ivFoodItemPic;
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
@@ -111,14 +117,14 @@ public class FoodListAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnTouchListener(this);
-            tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
-            tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
-            tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
-            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
-            ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
-            ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
-            cvFoodItem = (CardView) itemView.findViewById(R.id.cvFoodItem);
-            rlFoodItem = (RelativeLayout) itemView.findViewById(R.id.rlFoodItem);
+            tvFoodItemName = itemView.findViewById(R.id.tvFoodItemName);
+            tvFoodItemQty = itemView.findViewById(R.id.tvFoodItemQty);
+            tvFoodItemMeasure = itemView.findViewById(R.id.tvFoodItemMeasure);
+            ivFoodItemPic = itemView.findViewById(R.id.ivFoodItemPic);
+            ibFoodItemDelete = itemView.findViewById(R.id.ibFoodItemDelete);
+            cvFoodItem = itemView.findViewById(R.id.cvFoodItem);
+            rlFoodItem = itemView.findViewById(R.id.rlFoodItem);
+            tvExpiryDate = itemView.findViewById(R.id.tvExpiryDate);
         }
 
         public void bind(FoodItem foodItem, int position) {
@@ -148,6 +154,25 @@ public class FoodListAdapter extends
                 Glide.with(context).load(drawable).transform(new CircleCrop()).into(ivFoodItemPic);
             }
 
+            if (Objects.equals(type, "pantry")){ // show expiry dates for pantry items
+                if (foodItem.getExpiryDate()!=null){
+                    // todo: populate
+                    String expiry_date = p.format(foodItem.getExpiryDate());
+                    if (expiry_date.contains("ago")){
+                        expiry_date = "expired " + expiry_date;
+                        tvExpiryDate.setTextColor(context.getResources().getColor(R.color.red));
+                    }
+                    else {
+                        expiry_date = "expires " + expiry_date;
+                        tvExpiryDate.setTextColor(context.getResources().getColor(R.color.dark_blue));
+                    }
+                    tvExpiryDate.setText(expiry_date);
+                }
+                else {
+                    tvExpiryDate.setText(null);
+                }
+            }
+
             cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
                 public void onClick() {
@@ -156,6 +181,7 @@ public class FoodListAdapter extends
                     Intent intent = new Intent(context, EditFoodItemActivity.class);
                     intent.putExtra("process", "edit");
                     intent.putExtra("foodItem", foodItem);
+                    intent.putExtra("type", type);
                     if (Objects.equals(type, "grocery")){
                         // this function enables the user to see the changes they made to the food item without refreshing the grocery fragment page
                         context.groceryListFragment.editActivityResultLauncher.launch(intent);
@@ -284,4 +310,5 @@ public class FoodListAdapter extends
                     }).show();
 
     }
+
 }
