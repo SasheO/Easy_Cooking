@@ -31,13 +31,13 @@ public class Recipe extends ParseObject {
     private static final String KEY_IMAGE_URL = "image_url";
     private static final String KEY_TITLE = "title";
     private static final String KEY_USER = "user";
-    private static final String KEY_INGREDIENT_LINES_STR = "ingredientLines";
-    private static final String KEY_INGREDIENTS = "ingredients";
+//    private static final String KEY_INGREDIENT_LINES_STR = "ingredientLines";
     private static final String KEY_TYPE = "type";
-    private static final String KEY_PROCEDURE = "procedure";
     // these are set as public because they are referred to in other class (EditRecipeActivity)
+    public static final String KEY_PROCEDURE = "procedure";
     public static final String KEY_FILTERS = "filters";
     public static final String KEY_HYPERLINK_URL = "hyperlink_url";
+    public static final String KEY_INGREDIENTS = "ingredients";
     public static final Hashtable jsonFilterToEnum = new Hashtable();
 //    jsonFilterToEnum.put("beverages/dairy", "dairy");
 
@@ -120,16 +120,6 @@ public class Recipe extends ParseObject {
     public String getHyperlink_url() {
         try {
             return fetchIfNeeded().getString(KEY_HYPERLINK_URL);
-        } catch (ParseException e) {
-            Log.v(TAG, e.toString());
-            return null;
-        }
-    }
-
-
-    public List<String> getIngredientLines() {
-        try {
-            return fetchIfNeeded().getList(KEY_INGREDIENT_LINES_STR);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
             return null;
