@@ -208,6 +208,7 @@ ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
    * Kale vector created by [pch.vector](https://www.freepik.com/vectors/kale) - www.freepik.com
    * Cog vector created by [rawpixel.com](https://www.freepik.com/vectors/cog) - www.freepik.com
    * Milk icons created by [Freepik](https://www.flaticon.com/free-icons/milk) - Flaticon
+   * Spinach icons created by [Eucalyp](https://www.flaticon.com/free-icons/spinach) - Flaticon
  * Bone icons created by [smalllikeart](https://www.flaticon.com/free-icons/bone) - Flaticon
  * Rice icons created by [Icongeek26](https://www.flaticon.com/free-icons/rice) - Flaticon
  * Soy sauce icons created by [mangsaabguru](https://www.flaticon.com/free-icons/soy-sauce) - Flaticon
