@@ -232,13 +232,13 @@ public class PantryListFragment extends Fragment {
                     // to order the list in order of expiry dates (expired first, yet to expire next, then those with no expiry dates
                     Collections.reverse(objects);
                     pantryList.addAll(objects);
+                    // doing this to avoid simultaneous modification error with ArrayList type
                     for (int i=0;i<objects.size(); i++){
                         if (objects.get(i).getExpiryDate() == null){
                             pantryList.remove(objects.get(i));
                             pantryList.add(objects.get(i));
                         }
                     }
-
                     adapter.notifyDataSetChanged();
                 }
             }

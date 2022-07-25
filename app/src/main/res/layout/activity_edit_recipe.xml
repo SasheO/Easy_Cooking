@@ -96,13 +96,13 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/etAddIngredient"
             android:layout_alignTop="@+id/etAddIngredient"
-            android:layout_toStartOf="@+id/spinnerIngredientMeasure"
+            android:layout_toStartOf="@+id/spinnerFoodMeasure"
             android:hint="Amount"
             android:ems="10"
             android:inputType="numberDecimal" />
 
         <Spinner
-            android:id="@+id/spinnerIngredientMeasure"
+            android:id="@+id/spinnerFoodMeasure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/etAddIngredient"

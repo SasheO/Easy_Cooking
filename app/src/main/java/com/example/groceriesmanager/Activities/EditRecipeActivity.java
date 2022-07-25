@@ -108,7 +108,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         etAddIngredient = findViewById(R.id.etAddIngredient);
         etAddProcedure = findViewById(R.id.etAddProcedure);
         etIngredientQty = findViewById(R.id.etIngredientQty);
-        spinnerIngredientMeasure = findViewById(R.id.spinnerIngredientMeasure);
+        spinnerIngredientMeasure = findViewById(R.id.spinnerFoodMeasure);
 
         recipeProcedureList = new ArrayList<>();
         recipeIngredientList = new ArrayList<>();

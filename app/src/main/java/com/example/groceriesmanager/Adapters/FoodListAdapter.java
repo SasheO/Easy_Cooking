@@ -46,13 +46,9 @@ public class FoodListAdapter extends
     private static final String TAG = "FoodListAdapter";
     // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
     private static Hashtable textToDrawableName = new Hashtable();
+    private PrettyTime p = new PrettyTime();
     // public because this is accessed in other class
     public List<FoodItem> selected = new ArrayList<>();
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-    PrettyTime p = new PrettyTime();
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList, String type) {
@@ -171,6 +167,9 @@ public class FoodListAdapter extends
                         tvExpiryDate.setTextColor(context.getResources().getColor(R.color.dark_blue));
                     }
                     tvExpiryDate.setText(expiry_date);
+                }
+                else {
+                    tvExpiryDate.setText(null);
                 }
             }
 

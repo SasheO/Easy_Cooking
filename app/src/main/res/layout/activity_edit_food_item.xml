@@ -52,22 +52,34 @@
 
     <EditText
         android:id="@+id/etFoodQty"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvAmount"
         android:layout_marginStart="5dp"
-        android:layout_toStartOf="@id/spinnerIngredientMeasure"
+        android:gravity="right"
         android:layout_toEndOf="@id/tvAmount"
+        android:layout_toStartOf="@id/etFoodMeasure"
         android:ellipsize="end"
         android:inputType="numberDecimal" />
 
+    <EditText
+        android:id="@+id/etFoodMeasure"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvAmount"
+        android:layout_marginStart="5dp"
+        android:layout_toStartOf="@id/spinnerFoodMeasure"
+        android:ellipsize="end"
+        android:inputType="textPersonName" />
+
     <Spinner
-        android:id="@+id/spinnerIngredientMeasure"
+        android:id="@+id/spinnerFoodMeasure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Food measure dropdown"
-        android:layout_alignTop="@id/etFoodQty"
+        android:layout_alignTop="@id/etFoodMeasure"
+        android:layout_alignBottom="@id/etFoodMeasure"
         android:layout_alignParentEnd="true"
+        android:contentDescription="Food measure dropdown"
         android:spinnerMode="dropdown" />
 
     <TextView

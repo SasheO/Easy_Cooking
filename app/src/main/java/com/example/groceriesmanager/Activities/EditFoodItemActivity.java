@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -47,9 +48,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_food_item);
 
+        TextView etFoodMeasure = findViewById(R.id.etFoodMeasure);
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
-        Spinner spinnerFoodMeasure = findViewById(R.id.spinnerIngredientMeasure);
+        Spinner spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
         Spinner spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnCancel = findViewById(R.id.btnCancel);
@@ -90,7 +92,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
             // todo: fix this spinner measure below. it does not select the food type when opened
-            spinnerFoodMeasure.setSelection(foodMeasureAdapter.getPosition(foodItem.getMeasure()));
+            etFoodMeasure.setText(foodItem.getMeasure());
             if (foodItem.getExpiryDate()!=null){
                 int year = foodItem.getExpiryDate().getYear()+1900; // the addition is because only three numbers are returned and any 21st century year starts with 1
                 int month = foodItem.getExpiryDate().getMonth();
@@ -101,6 +103,18 @@ public class EditFoodItemActivity extends AppCompatActivity {
                 etExpiryDate.setText(year + "/" + month + "/" + day);
             }
         }
+
+//        spinnerFoodMeasure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                etFoodMeasure.setText(spinnerFoodCategory.getSelectedItem().toString());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +168,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                 String foodQty = etFoodQty.getText().toString();
                 String expiryDateStr = etExpiryDate.getText().toString();
                 if (expiryDateStr!=null && !Objects.equals(expiryDateStr, "")){
+                    // todo: check if date format is valid i.e. must be yyyy/dd/mm or yyyy/d/m if the date or month is one digit
                     try {
                         expiryDate = formatter.parse(expiryDateStr);
 
@@ -168,7 +183,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                String foodMeasure = spinnerFoodMeasure.getSelectedItem().toString();
+                String foodMeasure = etFoodMeasure.getText().toString();
                 String foodCategory = Arrays.asList(getResources().getStringArray(R.array.food_categories)).get(spinnerFoodCategory.getSelectedItemPosition());
 
 
