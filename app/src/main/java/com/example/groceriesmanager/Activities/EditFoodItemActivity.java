@@ -2,7 +2,9 @@ package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.example.groceriesmanager.Adapters.FoodCategorySpinnerAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
+import com.example.groceriesmanager.ReminderBroadcastReceiver;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -240,10 +243,24 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem.remove(FoodItem.KEY_CATEGORY);
         }
         if (foodStruct.expiryDate!=null){
-            foodItem.setExpiryDate(foodStruct.expiryDate);
+            if (!Objects.equals(foodStruct.type, "pantry")){
+                foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
+                // todo (optional): check if alarm scheduled and remove it
+            }
+            else {
+                foodItem.setExpiryDate(foodStruct.expiryDate);
+                // todo: schedule alarm
+                Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, 0);
+
+                // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            }
         }
         else {
             foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
+            // todo: check if alarm scheduled and remove it
         }
 
         foodItem.saveInBackground(new SaveCallback() {
