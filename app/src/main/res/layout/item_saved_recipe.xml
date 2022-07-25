@@ -6,13 +6,13 @@
     layout_width="match_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    card_view:cardCornerRadius="8dp"
+    card_view:cardCornerRadius="5dp"
     card_view:cardElevation="8dp">
 
     <RelativeLayout
         android:id="@+id/rlSavedRecipe"
         android:layout_width="match_parent"
+        android:background="@color/item_bg_color"
         android:layout_height="wrap_content">
 
         <TextView
@@ -87,6 +87,12 @@
             android:contentDescription="delete button"
             card_view:srcCompat="@android:drawable/ic_menu_delete"
             card_view:tint="@color/dark_grey" />
+        <View
+            android:id="@+id/border"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/ibOpenRecipeLink"
+            android:background="@color/pale_blue" />
 
 
     </RelativeLayout>

@@ -6,14 +6,14 @@
     layout_width="match_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="8dp">
 
     <RelativeLayout
         android:id="@+id/rlSavedRecipe"
+        android:background="@color/item_bg_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -115,7 +115,12 @@
             card_view:srcCompat="@android:drawable/ic_menu_set_as"
             card_view:tint="@color/dark_grey" />
 
-
+        <View
+            android:id="@+id/border"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/ibOpenRecipeLink"
+            android:background="@color/pale_blue" />
 
     </RelativeLayout>
 

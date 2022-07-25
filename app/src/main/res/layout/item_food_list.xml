@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="@color/food_item_bg">
+        android:background="@color/item_bg_color">
 
         <ImageView
             android:id="@+id/ivFoodItemPic"

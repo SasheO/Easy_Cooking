@@ -188,7 +188,7 @@ public class VideoSearchAdapter extends
     private boolean videoIsSaved(Video video){
         for (Video savedVideo: savedVideosList){
             // check title names since object ids will be different for the same recipe in each search
-            if (Objects.equals(video.getTitle(), savedVideo.getTitle())){
+            if (Objects.equals(video.getVideoID(), savedVideo.getVideoID())){
                 return true;
             }
         }
