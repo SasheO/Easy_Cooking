@@ -220,7 +220,7 @@ public class PantryListFragment extends Fragment {
         // necessary to include non-primitive types
         query.include("user");
         // order posts by creation date (newest first)
-        query.addAscendingOrder("expiryDate");
+        query.addDescendingOrder("expiryDate");
         query.findInBackground(new FindCallback<FoodItem>() {
             @Override
             public void done(List<FoodItem> objects, ParseException e) {
@@ -229,7 +229,16 @@ public class PantryListFragment extends Fragment {
                 }
                 else{
                     adapter.clear();
+                    // to order the list in order of expiry dates (expired first, yet to expire next, then those with no expiry dates
+                    Collections.reverse(objects);
                     pantryList.addAll(objects);
+                    for (int i=0;i<objects.size(); i++){
+                        if (objects.get(i).getExpiryDate() == null){
+                            pantryList.remove(objects.get(i));
+                            pantryList.add(objects.get(i));
+                        }
+                    }
+
                     adapter.notifyDataSetChanged();
                 }
             }

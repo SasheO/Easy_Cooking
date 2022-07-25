@@ -125,7 +125,6 @@ public class FoodListAdapter extends
             tvFoodItemQty = itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = itemView.findViewById(R.id.tvFoodItemMeasure);
             ivFoodItemPic = itemView.findViewById(R.id.ivFoodItemPic);
-            ibFoodItemSwitchList = itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = itemView.findViewById(R.id.ibFoodItemDelete);
             cvFoodItem = itemView.findViewById(R.id.cvFoodItem);
             rlFoodItem = itemView.findViewById(R.id.rlFoodItem);
@@ -165,9 +164,11 @@ public class FoodListAdapter extends
                     String expiry_date = p.format(foodItem.getExpiryDate());
                     if (expiry_date.contains("ago")){
                         expiry_date = "expired " + expiry_date;
+                        tvExpiryDate.setTextColor(context.getResources().getColor(R.color.red));
                     }
                     else {
                         expiry_date = "expires " + expiry_date;
+                        tvExpiryDate.setTextColor(context.getResources().getColor(R.color.dark_blue));
                     }
                     tvExpiryDate.setText(expiry_date);
                 }
