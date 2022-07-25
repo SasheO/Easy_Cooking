@@ -72,6 +72,8 @@ dependencies {
     // for editing string to capitalize first letter, etc.
     implementation 'org.apache.commons:commons-lang3:3.6'
 
+    // for formatting time
+    implementation 'org.ocpsoft.prettytime:prettytime:5.0.2.Final'
     // for lemmatization
 //    implementation 'org.apache.opennlp:opennlp:2.0.0'
 }

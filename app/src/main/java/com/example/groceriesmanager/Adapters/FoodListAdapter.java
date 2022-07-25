@@ -29,6 +29,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -50,7 +52,7 @@ public class FoodListAdapter extends
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-
+    PrettyTime p = new PrettyTime();
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList, String type) {
@@ -159,9 +161,14 @@ public class FoodListAdapter extends
 
             if (Objects.equals(type, "pantry")){ // show expiry dates for pantry items
                 if (foodItem.getExpiryDate()!=null){
-                    String expiry_date = "expires ";
                     // todo: populate
-                    expiry_date = expiry_date + getRelativeExpiryDate(String.valueOf(foodItem.getExpiryDate()));
+                    String expiry_date = p.format(foodItem.getExpiryDate());
+                    if (expiry_date.contains("ago")){
+                        expiry_date = "expired " + expiry_date;
+                    }
+                    else {
+                        expiry_date = "expires " + expiry_date;
+                    }
                     tvExpiryDate.setText(expiry_date);
                 }
             }
@@ -304,38 +311,4 @@ public class FoodListAdapter extends
 
     }
 
-    // original method gotten from https://gist.github.com/nesquena/f786232f5ef72f6e10a7
-    public String getRelativeExpiryDate(String rawJsonDate) {
-        // todo: fix this to display times in the future
-        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
-        sf.setLenient(true);
-
-        try {
-            long time = sf.parse(rawJsonDate).getTime();
-            long now = System.currentTimeMillis();
-
-            final long diff = now - time;
-            if (diff < MINUTE_MILLIS) {
-                return "just now";
-            } else if (diff < 2 * MINUTE_MILLIS) {
-                return "a minute ago";
-            } else if (diff < 50 * MINUTE_MILLIS) {
-                return diff / MINUTE_MILLIS + " m";
-            } else if (diff < 90 * MINUTE_MILLIS) {
-                return "an hour ago";
-            } else if (diff < 24 * HOUR_MILLIS) {
-                return diff / HOUR_MILLIS + " h";
-            } else if (diff < 48 * HOUR_MILLIS) {
-                return "yesterday";
-            } else {
-                return diff / DAY_MILLIS + " d";
-            }
-        } catch (java.text.ParseException e) {
-            Log.i(TAG, "getRelativeTimeAgo failed: " + e.toString());
-            e.printStackTrace();
-        }
-
-        return "";
-    }
 }
