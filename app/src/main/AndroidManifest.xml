@@ -55,6 +55,7 @@
         <activity
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
+        <receiver android:name=".ReminderBroadcastReceiver"/>
     </application>
 
 </manifest>

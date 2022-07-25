@@ -1,7 +1,10 @@
 package com.example.groceriesmanager.Fragments;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,8 +70,14 @@ public class PantryListFragment extends Fragment {
         RecyclerView  rvPantryList = view.findViewById(R.id.rvPantryList);
         ImageButton ibAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         FloatingActionButton fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
+
+        // populate pantry list
         pantryList = new ArrayList<>();
         queryPantryList();
+
+        // create notification channel
+        createNotificationChannel();
+
         adapter = new FoodListAdapter(currentActivity, pantryList, type);
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
@@ -269,6 +278,21 @@ public class PantryListFragment extends Fragment {
             }
         });
     }
+
+     private void createNotificationChannel(){
+        // for sdk >= 26, a notification channel must be created to see notifications
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "notifyExpiryDateChannel";
+            String description = "Channel for expiring foods reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyExpiryDate", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+     }
+
     public ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {

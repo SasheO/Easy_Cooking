@@ -109,6 +109,7 @@ public class FoodListAdapter extends
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
         public RelativeLayout rlFoodItem;
+        public ImageButton ibExpiringSoon;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -124,6 +125,7 @@ public class FoodListAdapter extends
             ibFoodItemDelete = itemView.findViewById(R.id.ibFoodItemDelete);
             rlFoodItem = itemView.findViewById(R.id.rlFoodItem);
             tvExpiryDate = itemView.findViewById(R.id.tvExpiryDate);
+            ibExpiringSoon = itemView.findViewById(R.id.ibExpiringSoon);
         }
 
         public void bind(FoodItem foodItem, int position) {
@@ -160,15 +162,18 @@ public class FoodListAdapter extends
                     if (expiry_date.contains("ago")){
                         expiry_date = "expired " + expiry_date;
                         tvExpiryDate.setTextColor(context.getResources().getColor(R.color.red));
+                        ibExpiringSoon.setVisibility(View.VISIBLE);
                     }
                     else {
                         expiry_date = "expires " + expiry_date;
                         tvExpiryDate.setTextColor(context.getResources().getColor(R.color.dark_blue));
+                        ibExpiringSoon.setVisibility(View.GONE);
                     }
                     tvExpiryDate.setText(expiry_date);
                 }
                 else {
                     tvExpiryDate.setText(null);
+                    ibExpiringSoon.setVisibility(View.GONE);
                 }
             }
 
