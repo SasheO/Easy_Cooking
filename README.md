@@ -202,7 +202,6 @@ ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
    * List icons created by [Freepik](https://www.flaticon.com/free-icons/list)
    * Pan icons created by [Good Ware](https://www.flaticon.com/free-icons/pan)
    * Nutrition background vector created by p[ikisuperstar](https://www.freepik.com/vectors/nutrition-background) - www.freepik.com
-   * Vegetable drawing vector created by [rawpixel.com](https://www.freepik.com/vectors/vegetable-drawing) - www.freepik.com
    * Canned food vector created by [brgfx](https://www.freepik.com/vectors/canned-food) - www.freepik.com
    * Etching vector created by [rawpixel.com](https://www.freepik.com/vectors/etching) - www.freepik.com
    * Kale vector created by [pch.vector](https://www.freepik.com/vectors/kale) - www.freepik.com
@@ -214,6 +213,7 @@ ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
  * Soy sauce icons created by [mangsaabguru](https://www.flaticon.com/free-icons/soy-sauce) - Flaticon
  * Expand icons created by [Google](https://www.flaticon.com/free-icons/expand) - Flaticon
  * Salt icons created by [Freepik](https://www.flaticon.com/free-icons/salt) - Flaticon
+ * Fruit icons created by [Smashicons](https://www.flaticon.com/free-icons/fruit) - Flaticon
 
 ## License
 
