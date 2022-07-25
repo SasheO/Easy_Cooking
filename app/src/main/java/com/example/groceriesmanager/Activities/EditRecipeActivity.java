@@ -381,10 +381,18 @@ public class EditRecipeActivity extends AppCompatActivity {
                     }
                     userRecipe.setIngredients(recipeIngredientList);
                 }
+                else {
+                    userRecipe.remove(Recipe.KEY_INGREDIENTS);
+                }
+
 
                 if (recipeProcedureList.size() != 0) {
                     userRecipe.setProcedure(recipeProcedureList);
                 }
+                else {
+                    userRecipe.remove(Recipe.KEY_PROCEDURE);
+                }
+
 
                 userRecipe.saveInBackground(new SaveCallback() {
                     @Override

@@ -37,11 +37,12 @@
         android:id="@+id/ibRecipeSearchClear"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:layout_alignTop="@id/ibRecipeSearch"
         android:layout_alignParentEnd="true"
         android:background="@null"
-        android:layout_alignTop="@id/ibRecipeSearch"
         android:contentDescription="clear previous search"
-        app:srcCompat="@android:drawable/ic_delete" />
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        app:tint="@color/dark_grey" />
 
     <TextView
         android:id="@+id/tvExpandFilters"

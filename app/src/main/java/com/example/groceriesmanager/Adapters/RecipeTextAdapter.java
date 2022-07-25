@@ -1,6 +1,7 @@
 package com.example.groceriesmanager.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.Vi
     private List<String> procedureList;
     private EditRecipeActivity context;
     private String type;
+    private static final String TAG = "RecipeTextAdapter";
 
     // Pass in the list array into the constructor
     public RecipeTextAdapter(String type) {
@@ -110,7 +112,7 @@ public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     context.editIngredient(item, ingredientList.indexOf(item));
-
+                    Log.i(TAG, ingredientList.toString());
                 }
             });
 
@@ -129,6 +131,7 @@ public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     context.deleteProcedure(procedureList.indexOf(procedure));
+                    Log.i(TAG, procedureList.toString());
                 }
             });
 

@@ -4,28 +4,29 @@
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     card_view:cardCornerRadius="8dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
     card_view:cardElevation="8dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:background="@color/item_bg_color">
 
         <TextView
             android:id="@+id/tvText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/ibEdit"
             android:text="TextView" />
 
         <ImageButton
             android:id="@+id/ibEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/tvText"
+            android:layout_toStartOf="@+id/ibDelete"
             android:background="@null"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
@@ -33,8 +34,16 @@
             android:id="@+id/ibDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/ibEdit"
+            android:layout_alignParentEnd="true"
             android:background="@null"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="@color/dark_grey" />
+
+        <View
+            android:id="@+id/border2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/ibDelete"
+            android:background="@color/pale_blue" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

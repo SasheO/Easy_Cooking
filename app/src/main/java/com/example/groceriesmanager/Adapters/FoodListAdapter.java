@@ -55,10 +55,10 @@ public class FoodListAdapter extends
         this.context = (MainActivity) context;
         this.foodItemList = foodItemList;
         this.type = type;
-        textToDrawableName.put("other", "food_item_holder");
+        textToDrawableName.put("other", "seasoning");
         textToDrawableName.put("--no selection--", "food_item_holder");
         textToDrawableName.put("fresh fruits", "fresh_fruit");
-        textToDrawableName.put("fresh vegetables", "fresh_fruit");
+        textToDrawableName.put("fresh vegetables", "fresh_vegetables");
         textToDrawableName.put("canned food", "canned_food");
         textToDrawableName.put("grains/legumes", "grains_legumes");
         textToDrawableName.put("protein", "protein");
@@ -101,7 +101,7 @@ public class FoodListAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView tvFoodItemName;
-        public CardView cvFoodItem;
+//        public CardView cvFoodItem;
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
         public TextView tvExpiryDate;
@@ -122,7 +122,6 @@ public class FoodListAdapter extends
             tvFoodItemMeasure = itemView.findViewById(R.id.tvFoodItemMeasure);
             ivFoodItemPic = itemView.findViewById(R.id.ivFoodItemPic);
             ibFoodItemDelete = itemView.findViewById(R.id.ibFoodItemDelete);
-            cvFoodItem = itemView.findViewById(R.id.cvFoodItem);
             rlFoodItem = itemView.findViewById(R.id.rlFoodItem);
             tvExpiryDate = itemView.findViewById(R.id.tvExpiryDate);
         }
@@ -173,7 +172,7 @@ public class FoodListAdapter extends
                 }
             }
 
-            cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
+            rlFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
                 public void onClick() {
                     super.onClick();

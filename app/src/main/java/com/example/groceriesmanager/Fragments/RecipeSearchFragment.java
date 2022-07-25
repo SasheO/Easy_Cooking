@@ -277,7 +277,7 @@ public class RecipeSearchFragment extends Fragment {
             }
 
             String url = urlBuilder.build().toString();
-            Log.i(TAG, "url: " + url);
+//            Log.i(TAG, "url: " + url);
 
             Request request = new Request.Builder()
                     .url(url)
@@ -297,7 +297,7 @@ public class RecipeSearchFragment extends Fragment {
                         try {
                             JSONObject responsejson = new JSONObject(myResponse);
                             next_page_url = responsejson.getJSONObject("_links").getJSONObject("next").getString("href");
-                            Log.i(TAG, "next page:" + next_page_url);
+//                            Log.i(TAG, "next page:" + next_page_url);
                             JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
                             recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
                         } catch (JSONException e) {
