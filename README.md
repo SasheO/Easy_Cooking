@@ -213,6 +213,7 @@ ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
  * Rice icons created by [Icongeek26](https://www.flaticon.com/free-icons/rice) - Flaticon
  * Soy sauce icons created by [mangsaabguru](https://www.flaticon.com/free-icons/soy-sauce) - Flaticon
  * Expand icons created by [Google](https://www.flaticon.com/free-icons/expand) - Flaticon
+ * Salt icons created by [Freepik](https://www.flaticon.com/free-icons/salt) - Flaticon
 
 ## License
 
