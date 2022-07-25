@@ -26,7 +26,7 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
     private Context context;
     private List<String> foodCategoryList;
     private static final String TAG = "FoodCategorySpinnerAdapter";
-    // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
+    // todo: extract this to values since this hashtable is also found in FoodListAdapter
     public static Hashtable textToDrawableName = new Hashtable();
 
     // Constructor accepts Context and a list of strings
@@ -34,10 +34,10 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
         super(context, R.layout.my_selected_item, foodCategoryList);
         this.context = context;
         this.foodCategoryList = foodCategoryList;
-        textToDrawableName.put("other", "food_item_holder");
+        textToDrawableName.put("other", "seasoning");
         textToDrawableName.put("--no selection--", "food_item_holder");
         textToDrawableName.put("fresh fruits", "fresh_fruit");
-        textToDrawableName.put("fresh vegetables", "fresh_fruit");
+        textToDrawableName.put("fresh vegetables", "fresh_vegetables");
         textToDrawableName.put("canned food", "canned_food");
         textToDrawableName.put("grains/legumes", "grains_legumes");
         textToDrawableName.put("protein", "protein");
