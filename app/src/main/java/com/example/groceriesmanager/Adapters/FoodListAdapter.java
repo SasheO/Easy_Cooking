@@ -157,7 +157,6 @@ public class FoodListAdapter extends
 
             if (Objects.equals(type, "pantry")){ // show expiry dates for pantry items
                 if (foodItem.getExpiryDate()!=null){
-                    // todo: populate
                     String expiry_date = p.format(foodItem.getExpiryDate());
                     if (expiry_date.contains("ago")){
                         expiry_date = "expired " + expiry_date;

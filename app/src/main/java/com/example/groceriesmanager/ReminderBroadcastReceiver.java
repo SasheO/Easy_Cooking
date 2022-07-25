@@ -12,6 +12,7 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // notification compat builder for constructing the details of the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyExpiryDate")
+                .setSmallIcon(R.drawable.food_item_holder)
                 .setContentTitle("Some of your pantry items are about to expire")
                 .setContentText("text")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

@@ -243,24 +243,34 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem.remove(FoodItem.KEY_CATEGORY);
         }
         if (foodStruct.expiryDate!=null){
-            if (!Objects.equals(foodStruct.type, "pantry")){
+            if (!Objects.equals(foodStruct.type, "pantry")){ // only pantry items should have expiry dates
                 foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
-                // todo (optional): check if alarm scheduled and remove it
+                // todo (optional): check if notification scheduled and remove it
             }
             else {
                 foodItem.setExpiryDate(foodStruct.expiryDate);
-                // todo: schedule alarm
+                // todo: schedule notification 3-5 days before expiry. check if up to three - five days already.
                 Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
+                intent.putExtra("name", foodItem.getName());
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, 0);
 
                 // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+                /* todo: calculate expiry date time
+                * set notification based on expiry date
+                * */
+                long timeAtButtonClick = System.currentTimeMillis();
+                long timeDelayForNotificationInMillis = 1000 * 10; // todo: edit this
+                // the arguments for set are the type of alarm, the time it goes off and the action to take when it goes off
+                alarmManager.set(AlarmManager.RTC_WAKEUP, timeDelayForNotificationInMillis + timeAtButtonClick, pendingIntent);
             }
         }
         else {
             foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
-            // todo: check if alarm scheduled and remove it
+            /* todo: check if notification scheduled and remove it
+            * (stretch) only include notification if it is a vegetable, for five days after creation date
+             */
         }
 
         foodItem.saveInBackground(new SaveCallback() {
@@ -299,6 +309,21 @@ public class EditFoodItemActivity extends AppCompatActivity {
         if (foodStruct.expiryDate!=null){
             newFoodItem.setExpiryDate(foodStruct.expiryDate);
             Log.i(TAG, "expiry date: " + newFoodItem.getExpiryDate().toString());
+            // todo: schedule notification 3-5 days before expiry. check if up to three - five days already.
+            Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
+            intent.putExtra("name", newFoodItem.getName());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+            // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            /* todo: calculate expiry date time
+             * set notification based on expiry date
+             * */
+            long timeAtButtonClick = System.currentTimeMillis();
+            long timeDelayForNotificationInMillis = 1000 * 10; // todo: edit this
+            // the arguments for set are the type of alarm, the time it goes off and the action to take when it goes off
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeDelayForNotificationInMillis + timeAtButtonClick, pendingIntent);
         }
         else {
             newFoodItem.remove(FoodItem.KEY_EXPIRY_DATE);
