@@ -10,15 +10,21 @@ import androidx.core.app.NotificationManagerCompat;
 public class ReminderBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        String name = intent.getStringExtra("name");
         // notification compat builder for constructing the details of the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyExpiryDate")
                 .setSmallIcon(R.drawable.app_icon)
-                .setContentTitle("Some of your pantry items are about to expire")
-                .setContentText("text")
+                .setContentTitle("Pantry item expiring soon!")
+                .setContentText("Open the app to find recipes for " + name)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        // todo: set pending intent for searching recipes: possibly first search user saved recipes
+//                .addAction(android.R.drawable.ic_search_category_default, "find recipes!",
+//                        pendingIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-        notificationManager.notify(200, builder.build() );
+        // todo: change id to unique id for each notification and find a way to store it since you need it to remove or edit notification
+        // source: https://developer.android.com/training/notify-user/build-notification
+        notificationManager.notify(200, builder.build());
     }
 }
