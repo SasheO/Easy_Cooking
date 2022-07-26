@@ -74,14 +74,14 @@
 
     <Spinner
         android:id="@+id/spinnerFoodMeasure"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/etFoodMeasure"
-        android:layout_alignBottom="@id/etFoodMeasure"
         android:layout_alignEnd="@id/ibFoodMeasure"
-        android:visibility="gone"
+        android:layout_alignBottom="@id/etFoodMeasure"
         android:contentDescription="Food measure dropdown"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/ibFoodMeasure"
