@@ -56,10 +56,10 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvAmount"
         android:layout_marginStart="5dp"
-        android:gravity="right"
-        android:layout_toEndOf="@id/tvAmount"
         android:layout_toStartOf="@id/etFoodMeasure"
+        android:layout_toEndOf="@id/tvAmount"
         android:ellipsize="end"
+        android:gravity="right"
         android:inputType="numberDecimal" />
 
     <EditText
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvAmount"
         android:layout_marginStart="5dp"
-        android:layout_toStartOf="@id/spinnerFoodMeasure"
+        android:layout_toStartOf="@id/ibFoodMeasure"
         android:ellipsize="end"
         android:inputType="textPersonName" />
 
@@ -78,9 +78,23 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/etFoodMeasure"
         android:layout_alignBottom="@id/etFoodMeasure"
-        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@id/ibFoodMeasure"
+        android:visibility="gone"
         android:contentDescription="Food measure dropdown"
         android:spinnerMode="dropdown" />
+
+    <ImageButton
+        android:id="@+id/ibFoodMeasure"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@id/etFoodMeasure"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="11dp"
+        android:background="@null"
+        android:contentDescription="Food measure dropdown"
+        android:scaleType="fitXY"
+        android:src="@drawable/expand_arrow" />
 
     <TextView
         android:id="@+id/tvExpiryLabel"

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -54,6 +55,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
         Spinner spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
+        ImageButton ibFoodMeasure = findViewById(R.id.ibFoodMeasure);
         Spinner spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnCancel = findViewById(R.id.btnCancel);
@@ -87,6 +89,14 @@ public class EditFoodItemActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.spinner_item_food_category);
         spinnerFoodCategory.setAdapter(adapter);
 
+        ibFoodMeasure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinnerFoodMeasure.setVisibility(View.VISIBLE);
+                spinnerFoodMeasure.performClick();
+            }
+        });
+
         // if intent process is edit, get the food item passed in and set the values in the edit text, etc
         if (Objects.equals(process, "edit")){
             tvTitle.setText("Edit Food Item"); // change title from "create food item"
@@ -95,6 +105,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
             etFoodQty.setText(foodItem.getQuantity());
             // todo: fix this spinner measure below. it does not select the food type when opened
             etFoodMeasure.setText(foodItem.getMeasure());
+            if (Arrays.asList(getResources().getStringArray(R.array.food_measures)).contains(foodItem.getMeasure())){
+                spinnerFoodMeasure.setSelection(Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(foodItem.getMeasure()));
+            }
+
             if (foodItem.getExpiryDate()!=null){
                 int year = foodItem.getExpiryDate().getYear()+1900; // the addition is because only three numbers are returned and any 21st century year starts with 1
                 int month = foodItem.getExpiryDate().getMonth();
@@ -106,17 +120,21 @@ public class EditFoodItemActivity extends AppCompatActivity {
             }
         }
 
-//        spinnerFoodMeasure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                etFoodMeasure.setText(spinnerFoodCategory.getSelectedItem().toString());
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        spinnerFoodMeasure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position!=0){
+                Log.i(TAG, "selected: " + position + spinnerFoodMeasure.getSelectedItem().toString());
+                etFoodMeasure.setText(spinnerFoodMeasure.getItemAtPosition(position).toString());
+                spinnerFoodMeasure.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
