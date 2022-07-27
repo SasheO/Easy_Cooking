@@ -12,20 +12,17 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 public class ReminderBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        int flags = PendingIntent.FLAG_CANCEL_CURRENT; // cancel old intent and create new one
-        Intent mainActivityIntent = new Intent(context, MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, mainActivityIntent, flags);
-
         String name = intent.getStringExtra("name");
         String fragment = intent.getStringExtra("fragment");
         // notification compat builder for constructing the details of the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyExpiryDate")
-                .setContentTitle("Pantry item expiring soon!")
-                .setContentText("Open the app to find recipes for " + name)
-                .setContentIntent(pIntent)
+                .setContentTitle(WordUtils.capitalize(name) + " expiring soon!")
+                .setContentText("Open the app to find recipes")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
 //        .setSmallIcon(R.drawable.fresh_fruit)

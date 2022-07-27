@@ -117,10 +117,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
             if (foodItem.getExpiryDate()!=null){
                 int year = foodItem.getExpiryDate().getYear()+1900; // the addition is because only three numbers are returned and any 21st century year starts with 1
-                int month = foodItem.getExpiryDate().getMonth();
+                int month = foodItem.getExpiryDate().getMonth()+1; // add one to fix error in etExpiryDate
                 int day = foodItem.getExpiryDate().getDate();
                 selectedYear = year;
-                selectedMonth = month;
+                selectedMonth = month-1; // subtract one to fix error in date picker
                 selectedDayOfMonth = day;
                 etExpiryDate.setText(year + "/" + month + "/" + day);
             }
@@ -349,61 +349,61 @@ public class EditFoodItemActivity extends AppCompatActivity {
         }
 
     private void setNotification(Date expiryDate, String name){
-//        // todo: schedule notification 1-5 days before expiry. check if up to three - five days already.
-//        Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
-//        intent.putExtra("name", name);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-//        // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//
-//         * set notification based on expiry date
-//         * 1. get epiry date in milliseconds
-//         * 2. subtract a day from it. if it is earlier than today, recursively subtract less days until it isn't.
-//         * 3. program the notification for then.
-//         * */
-//        long expiryTimeInMilliseconds = expiryDate.getTime();
-//        Log.i(TAG, "expiryTimeInMilliseconds: " + expiryTimeInMilliseconds);
-//
-//        long currentTimeInMillis = System.currentTimeMillis();
-//        Log.i(TAG, "currentTimeInMillis: " + currentTimeInMillis);
-//
-//        long twelveHoursInMillis = 12 * 3600000;
-//        long fiveDaysBefore = twelveHoursInMillis * 7;
-//        long threeDaysBefore = twelveHoursInMillis * 5;
-//
-//        long triggerAtMillis = expiryTimeInMilliseconds - fiveDaysBefore;
-//        if (triggerAtMillis > currentTimeInMillis){
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
-//        }
-//        else {
-//            triggerAtMillis = expiryTimeInMilliseconds - threeDaysBefore;
-//        }
-//
-//        if (triggerAtMillis > currentTimeInMillis){
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
-//        }
-//        else {
-//            triggerAtMillis = expiryTimeInMilliseconds - twelveHoursInMillis;
-//        }
-//
-//        if (triggerAtMillis > currentTimeInMillis){
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
-//        }
-
-        // notifications for 10 seconds after
+        // todo: schedule notification 1-5 days before expiry. check if up to three - five days already.
         Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
         intent.putExtra("name", name);
-        intent.putExtra("fragment", "pantry");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
         // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        long timeAtButtonClick = System.currentTimeMillis();
-        long timeDelayForNotificationInMillis = 1000 * 10;
-        // the arguments for set are the type of alarm, the time it goes off and the action to take when it goes off
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeDelayForNotificationInMillis + timeAtButtonClick, pendingIntent);
+         /* set notification based on expiry date
+         * 1. get epiry date in milliseconds
+         * 2. subtract a day from it. if it is earlier than today, recursively subtract less days until it isn't.
+         * 3. program the notification for then.
+         * */
+        long expiryTimeInMilliseconds = expiryDate.getTime();
+        Log.i(TAG, "expiryTimeInMilliseconds: " + expiryTimeInMilliseconds);
+
+        long currentTimeInMillis = System.currentTimeMillis();
+        Log.i(TAG, "currentTimeInMillis: " + currentTimeInMillis);
+
+        long twelveHoursInMillis = 12 * 3600000;
+        long fiveDaysBefore = twelveHoursInMillis * 7;
+        long threeDaysBefore = twelveHoursInMillis * 5;
+
+        long triggerAtMillis = expiryTimeInMilliseconds - fiveDaysBefore;
+        if (triggerAtMillis > currentTimeInMillis){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        }
+        else {
+            triggerAtMillis = expiryTimeInMilliseconds - threeDaysBefore;
+        }
+
+        if (triggerAtMillis > currentTimeInMillis){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        }
+        else {
+            triggerAtMillis = expiryTimeInMilliseconds - twelveHoursInMillis;
+        }
+
+        if (triggerAtMillis > currentTimeInMillis){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        }
+
+//        // notifications for 10 seconds after (for testing only)
+//        Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
+//        intent.putExtra("name", name);
+//        intent.putExtra("fragment", "pantry");
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+//        // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//        long timeAtButtonClick = System.currentTimeMillis();
+//        long timeDelayForNotificationInMillis = 1000 * 10;
+//        // the arguments for set are the type of alarm, the time it goes off and the action to take when it goes off
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, timeDelayForNotificationInMillis + timeAtButtonClick, pendingIntent);
     }
 
 
