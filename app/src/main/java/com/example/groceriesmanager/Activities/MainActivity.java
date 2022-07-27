@@ -16,6 +16,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // create notification channel for sending alerts
+        createNotificationChannel();
+
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // when you first open the main activity, the grocerylist fragment shows first

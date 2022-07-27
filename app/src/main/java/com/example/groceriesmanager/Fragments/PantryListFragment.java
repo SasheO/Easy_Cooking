@@ -75,9 +75,6 @@ public class PantryListFragment extends Fragment {
         pantryList = new ArrayList<>();
         queryPantryList();
 
-        // create notification channel
-        createNotificationChannel();
-
         adapter = new FoodListAdapter(currentActivity, pantryList, type);
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
@@ -278,19 +275,7 @@ public class PantryListFragment extends Fragment {
         });
     }
 
-     private void createNotificationChannel(){
-        // for sdk >= 26, a notification channel must be created to see notifications
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name = "notifyExpiryDateChannel";
-            String description = "Channel for expiring foods reminder";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("notifyExpiryDate", name, importance);
-            channel.setDescription(description);
 
-            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-     }
 
     public ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
