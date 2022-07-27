@@ -1,11 +1,13 @@
 package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -350,7 +352,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
 //        // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
 //        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 //
-//        /* todo: calculate expiry date time
 //         * set notification based on expiry date
 //         * 1. get epiry date in milliseconds
 //         * 2. subtract a day from it. if it is earlier than today, recursively subtract less days until it isn't.
@@ -388,15 +389,35 @@ public class EditFoodItemActivity extends AppCompatActivity {
         // notifications for 10 seconds after
                 Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
                 intent.putExtra("name", name);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-                // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-                long timeAtButtonClick = System.currentTimeMillis();
-                long timeDelayForNotificationInMillis = 1000 * 10; // todo: edit this
-                // the arguments for set are the type of alarm, the time it goes off and the action to take when it goes off
-                alarmManager.set(AlarmManager.RTC_WAKEUP, timeDelayForNotificationInMillis + timeAtButtonClick, pendingIntent);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(EditFoodItemActivity.this, "notifyExpiryDate")
+                .setContentTitle("Pantry item expiring soon!")
+                .setContentText("Open the app to find recipes for " + name)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                // todo: set pending intent for searching recipes: possibly first search user saved recipes
+        //        // Set the intent that will fire when the user taps the notification
+        //                .setContentIntent(pendingIntent)
+        //                .setAutoCancel(true);
+
+        // the small icon must be set this way bc of https://stackoverflow.com/questions/30795431/android-push-notifications-icon-not-displaying-in-notification-white-square-sh
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setSmallIcon(R.drawable.app_icon_transparent);
+            builder.setColor(getResources().getColor(R.color.white));
+        } else {
+            builder.setSmallIcon(R.drawable.app_icon);
+        }
+//                PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+//                // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
+//                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//                long timeAtButtonClick = System.currentTimeMillis();
+//                long timeDelayForNotificationInMillis = 1000 * 10; // todo: edit this
+//                // the arguments for set are the type of alarm, the time it goes off and the action to take when it goes off
+//                alarmManager.set(AlarmManager.RTC_WAKEUP, timeDelayForNotificationInMillis + timeAtButtonClick, pendingIntent);
     }
 
 

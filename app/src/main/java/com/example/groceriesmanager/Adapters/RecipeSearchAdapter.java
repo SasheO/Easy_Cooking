@@ -155,7 +155,6 @@ public class RecipeSearchAdapter extends
                     recipeIngredientStr = recipeIngredientStr + name + "\r\n";
                 }
 
-                // todo: find a better way of implementing pantry list checks that does not require the user to open the pantry list first before oepning this fragment. this will help eliminate this null check.
                 if (pantryList!=null){
                     // check if ingredient with same name in pantry
                     for (FoodItem pantryItem: pantryList){

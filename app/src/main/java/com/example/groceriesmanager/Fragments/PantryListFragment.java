@@ -97,7 +97,6 @@ public class PantryListFragment extends Fragment {
         spinnerSortAccordingTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // todo: implement cleaner way of identifying which item is selected
                 String selection = spinnerSortAccordingTo.getItemAtPosition(position).toString();
                 if (Objects.equals(selection, "default")){
                     queryPantryList();
@@ -302,7 +301,6 @@ public class PantryListFragment extends Fragment {
                     // with no error or cancellation
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        // todo: Get the data passed from EditActivity
                         String process = data.getExtras().getString("process");
                         FoodItem foodItem = data.getParcelableExtra("fooditem");
 

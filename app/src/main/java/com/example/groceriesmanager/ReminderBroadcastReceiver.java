@@ -20,11 +20,12 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
 
 //        .setSmallIcon(R.drawable.fresh_fruit)
         // todo: set pending intent for searching recipes: possibly first search user saved recipes
-//                .addAction(android.R.drawable.ic_search_category_default, "find recipes!",
-//                        pendingIntent);
+//        // Set the intent that will fire when the user taps the notification
+//                .setContentIntent(pendingIntent)
+//                .setAutoCancel(true);
 
+        // the small icon must be set this way bc of https://stackoverflow.com/questions/30795431/android-push-notifications-icon-not-displaying-in-notification-white-square-sh
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // todo: set this as a transparent
             builder.setSmallIcon(R.drawable.app_icon_transparent);
             builder.setColor(context.getResources().getColor(R.color.white));
         } else {
