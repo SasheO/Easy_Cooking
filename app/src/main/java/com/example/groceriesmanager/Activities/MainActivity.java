@@ -114,6 +114,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void createNotificationChannel(){
+        // for sdk >= 26, a notification channel must be created to see notifications
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "notifyExpiryDateChannel";
+            String description = "Channel for expiring foods reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyExpiryDate", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
