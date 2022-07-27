@@ -221,17 +221,21 @@ public class RecipeSearchAdapter extends
             tvAddAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
+                    * creates a dialog box where you can select items not in pantry list (i.e. items in AddAllList)
+                    * allows you to add them to grocery list by saving them to server
+                    * */
                     tvAddAll.setTextColor(context.getColor(R.color.dark_grey));
                     Dialog dialog;
                     List<Integer> indexOfIngredientsSelectedArray = new ArrayList();
-                    String[] items = new String[addAllList.size()];
+                    String[] ingredientNamesStringArr = new String[addAllList.size()];
                     for (int i=0; i<addAllList.size(); i++){
-                        items[i] = addAllList.get(i).getName();
+                        ingredientNamesStringArr[i] = addAllList.get(i).getName();
                     }
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Add to Grocery List: ");
-                    builder.setMultiChoiceItems(items, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    builder.setMultiChoiceItems(ingredientNamesStringArr, null, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int selectedItemIndex, boolean isSelected) {
                             if (isSelected) {
