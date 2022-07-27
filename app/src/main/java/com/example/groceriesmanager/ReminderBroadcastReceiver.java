@@ -12,6 +12,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 public class ReminderBroadcastReceiver extends BroadcastReceiver {
@@ -21,7 +22,7 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         String fragment = intent.getStringExtra("fragment");
         // notification compat builder for constructing the details of the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyExpiryDate")
-                .setContentTitle(WordUtils.capitalize(name) + " expiring soon!")
+                .setContentTitle(StringUtils.capitalize(name) + " expiring soon!")
                 .setContentText("Open the app to find recipes")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
