@@ -14,22 +14,58 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/edit_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--TextView
+            <TextView
                 android:id="@+id/lbl_your_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Label"
-                android:text="How To Use This Page" /-->
+                android:text="How To Use This Page" />
 
             <TextView
-                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="To add new item, click the plus button in the corner:"/>
+                android:layout_height="wrap_content"
+                android:text="To add new item, click the plus button in the corner:" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_input_add"
+                app:tint="@color/dark_blue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To delete item, click the trash item:" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_delete"
+                app:tint="@color/dark_grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To move item from one list to another, swipe in its direction:" />
+
+            <VideoView
+                android:id="@+id/vvSwitchList"
+                android:layout_width="175dp"
+                android:layout_height="300dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To edit item, simply select it:" />
+
+            <VideoView
+                android:id="@+id/vvEditItem"
+                android:layout_width="175dp"
+                android:layout_height="300dp" />
 
         </LinearLayout>
 
