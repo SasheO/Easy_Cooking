@@ -20,9 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
+import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
-import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -41,9 +41,14 @@ public class GroceryListFragment extends Fragment {
     public FoodListAdapter adapter;
     private static final String type = "grocery";
     private SwipeRefreshLayout swipeContainer;
+    private MainActivity context;
 
     // required empty constructor
     public GroceryListFragment() {}
+
+    public GroceryListFragment(MainActivity context) {
+        this.context = context;
+    }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -63,6 +68,7 @@ public class GroceryListFragment extends Fragment {
         swipeContainer = view.findViewById(R.id.swipeContainer);
         groceryList = new ArrayList<>();
         queryGroceryList();
+        ImageButton ibHowToUse = view.findViewById(R.id.ibHowToUse);
         adapter = new FoodListAdapter(getContext(), groceryList, type);
 
         // set the adapter on the recycler view
@@ -86,6 +92,13 @@ public class GroceryListFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        ibHowToUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // show how to use dialog fragment
+                context.howToUseFoodListFragment.show(context.fragmentManager, "How To Use Pantry");
+            }
+        });
 
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override

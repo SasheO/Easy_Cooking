@@ -1,10 +1,7 @@
 package com.example.groceriesmanager.Fragments;
 
 import android.app.Activity;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,12 +45,13 @@ public class PantryListFragment extends Fragment {
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
     private static final String type = "pantry";
-    private MainActivity currentActivity;
+    private MainActivity context;
     private SwipeRefreshLayout swipeContainer;
 
     // required empty constructor
     public PantryListFragment() {}
-    public PantryListFragment(MainActivity currentActivity) {this.currentActivity = currentActivity;}
+
+    public PantryListFragment(MainActivity context) {this.context = context;}
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -72,13 +70,14 @@ public class PantryListFragment extends Fragment {
         RecyclerView  rvPantryList = view.findViewById(R.id.rvPantryList);
         ImageButton ibAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         FloatingActionButton fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
+        ImageButton ibHowToUse = view.findViewById(R.id.ibHowToUse);
         swipeContainer = view.findViewById(R.id.swipeContainer);
 
         // populate pantry list
         pantryList = new ArrayList<>();
         queryPantryList();
 
-        adapter = new FoodListAdapter(currentActivity, pantryList, type);
+        adapter = new FoodListAdapter(context, pantryList, type);
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
         // set the layout manager on the recycler view
@@ -117,6 +116,13 @@ public class PantryListFragment extends Fragment {
             }
         });
 
+        ibHowToUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // show how to use dialog fragment
+                context.howToUseFoodListFragment.show(context.fragmentManager, "How To Use Pantry");
+            }
+        });
 
         fabtnSuggestRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,10 +150,10 @@ public class PantryListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (pantryList.size() >= 30){
-                    Toast.makeText(currentActivity, "Pantry list at maximum capacity. Delete old items to add new.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Pantry list at maximum capacity. Delete old items to add new.", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Intent intent = new Intent(currentActivity, EditFoodItemActivity.class);
+                    Intent intent = new Intent(context, EditFoodItemActivity.class);
                     intent.putExtra("type", type);
                     intent.putExtra("process", "new");
                     editActivityResultLauncher.launch(intent);
@@ -158,7 +164,7 @@ public class PantryListFragment extends Fragment {
 
     private void suggestRecipes() {
 
-        FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = context.getSupportFragmentManager().beginTransaction();
         String userQuery = "";
 
 
@@ -168,7 +174,7 @@ public class PantryListFragment extends Fragment {
 
             // need at least two elements for smart search
             if (pantryList.size()<2){
-                Toast.makeText(currentActivity, "not enough for random search", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "not enough for random search", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -294,7 +300,6 @@ public class PantryListFragment extends Fragment {
             }
         });
     }
-
 
 
     public ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
