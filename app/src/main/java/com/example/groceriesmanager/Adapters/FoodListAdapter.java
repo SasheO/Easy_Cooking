@@ -196,6 +196,7 @@ public class FoodListAdapter extends
                 }
                 public void onLongClick(){
                     if(Objects.equals(foodItem.getType(), "pantry")){
+                        // allow user to select food items
                         if (!selected.contains(foodItem)){
                             selected.add(foodItem);
                             rlFoodItem.setBackgroundColor(context.getResources().getColor(R.color.highlighted_blue));

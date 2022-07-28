@@ -109,10 +109,13 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem = getIntent().getParcelableExtra("foodItem");
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
-            // todo: fix this spinner measure below. it does not select the food type when opened
             etFoodMeasure.setText(foodItem.getMeasure());
             if (Arrays.asList(getResources().getStringArray(R.array.food_measures)).contains(foodItem.getMeasure())){
                 spinnerFoodMeasure.setSelection(Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(foodItem.getMeasure()));
+            }
+
+            if (Arrays.asList(getResources().getStringArray(R.array.food_categories)).contains(foodItem.getFoodCategory())){
+                spinnerFoodCategory.setSelection(Arrays.asList(getResources().getStringArray(R.array.food_categories)).indexOf(foodItem.getFoodCategory()));
             }
 
             if (foodItem.getExpiryDate()!=null){
@@ -200,7 +203,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
 //                        Log.i(TAG, "today: " + today);
 //                        Log.i(TAG, "expiry date: " + expiryDate);
-                        if(expiryDate.compareTo(today)<0){ // if expiry date is set in future
+                        if(expiryDate.compareTo(today)<0&&Objects.equals(type, "pantry")){ // if expiry date is set in future
                             Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -265,6 +268,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             // if set to no selection, remove food category
             foodItem.remove(FoodItem.KEY_CATEGORY);
         }
+
         if (foodStruct.expiryDate!=null){
             if (!Objects.equals(foodStruct.type, "pantry")){ // only pantry items should have expiry dates
                 foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
@@ -294,7 +298,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     Intent data = new Intent();
                     // Pass relevant data back as a result
                     data.putExtra("process", "edit");
-                    data.putExtra("fooditem", foodItem);
+                    data.putExtra("foodItem", foodItem);
                     // Activity finished ok, return the data
                     setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish();
@@ -308,13 +312,23 @@ public class EditFoodItemActivity extends AppCompatActivity {
         newFoodItem.setName(foodStruct.foodName.replaceAll("\n", ""));
         newFoodItem.setType(foodStruct.type);
         newFoodItem.setUser(ParseUser.getCurrentUser());
+
         if (!Objects.equals(foodStruct.foodQty, "")){
             newFoodItem.setQuantity(foodStruct.foodQty);
             newFoodItem.setMeasure(foodStruct.foodMeasure);
         }
+        else {
+            newFoodItem.remove(FoodItem.KEY_QUANTITY);
+            newFoodItem.remove(FoodItem.KEY_MEASURE);
+        }
+
         if (!Objects.equals(foodStruct.foodCategory, "--no selection--")){
             newFoodItem.setCategory(foodStruct.foodCategory);
         }
+        else {
+            newFoodItem.remove(FoodItem.KEY_CATEGORY);
+        }
+
         if (foodStruct.expiryDate!=null){
             newFoodItem.setExpiryDate(foodStruct.expiryDate);
             Log.i(TAG, "expiry date: " + newFoodItem.getExpiryDate().toString());
@@ -323,6 +337,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         else {
             newFoodItem.remove(FoodItem.KEY_EXPIRY_DATE);
         }
+
         // update info in parse server
         newFoodItem.saveInBackground(new SaveCallback() {
             @Override
@@ -339,7 +354,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     Intent data = new Intent();
                     // Pass relevant data back as a result
                     data.putExtra("process", "new");
-                    data.putExtra("fooditem", newFoodItem);
+                    data.putExtra("foodItem", newFoodItem);
                     // Activity finished ok, return the data
                     setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish();

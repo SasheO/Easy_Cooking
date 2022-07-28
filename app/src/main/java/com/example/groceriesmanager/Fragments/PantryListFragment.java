@@ -287,7 +287,7 @@ public class PantryListFragment extends Fragment {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         String process = data.getExtras().getString("process");
-                        FoodItem foodItem = data.getParcelableExtra("fooditem");
+                        FoodItem foodItem = data.getParcelableExtra("foodItem");
 
                         if (Objects.equals(process, "new")){ // if creating new food item
                             pantryList.add(0, foodItem); // add it to recycler view
