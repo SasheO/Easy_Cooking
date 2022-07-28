@@ -63,6 +63,7 @@ public class GroceryListFragment extends Fragment {
         swipeContainer = view.findViewById(R.id.swipeContainer);
         groceryList = new ArrayList<>();
         queryGroceryList();
+        ImageButton ibHowToUse = view.findViewById(R.id.ibHowToUse);
         adapter = new FoodListAdapter(getContext(), groceryList, type);
 
         // set the adapter on the recycler view
@@ -86,6 +87,12 @@ public class GroceryListFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        ibHowToUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo: open how to use dialog
+            }
+        });
 
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -7,14 +7,26 @@
         android:layout_height="match_parent"
         >
 
-        <TextView
-        android:id="@+id/Title"
+    <TextView
+        android:id="@+id/tvTitle"
         style="@style/FragmentTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@id/ibAddPantryItem"
+        android:layout_toStartOf="@id/ibHowToUse"
         android:text="Pantry" />
+
+    <ImageButton
+        android:id="@+id/ibHowToUse"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toStartOf="@+id/ibAddPantryItem"
+        android:background="@null"
+        android:contentDescription="Add new item button"
+        android:layout_alignBottom="@id/tvTitle"
+        android:layout_alignTop="@id/tvTitle"
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        app:tint="@color/pale_blue" />
 
     <ImageButton
         android:id="@+id/ibAddPantryItem"
@@ -22,14 +34,17 @@
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:background="@null"
+        android:layout_alignBottom="@id/tvTitle"
+        android:layout_alignTop="@id/tvTitle"
         android:contentDescription="Add new item button"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:tint="@color/dark_blue" />
 
     <TextView
         android:id="@+id/tvSortAccordingTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Title"
+        android:layout_below="@+id/tvTitle"
         android:layout_alignParentStart="true"
         android:text="Sort according to: "
         android:textColor="@color/dark_blue" />
@@ -42,13 +57,12 @@
         android:layout_alignBottom="@id/tvSortAccordingTo"
         android:layout_toEndOf="@id/tvSortAccordingTo" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tvSortAccordingTo">
+        android:layout_below="@id/tvSortAccordingTo"
+        android:layout_marginTop="5dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPantryList"

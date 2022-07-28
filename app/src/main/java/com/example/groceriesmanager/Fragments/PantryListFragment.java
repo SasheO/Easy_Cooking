@@ -72,6 +72,7 @@ public class PantryListFragment extends Fragment {
         RecyclerView  rvPantryList = view.findViewById(R.id.rvPantryList);
         ImageButton ibAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         FloatingActionButton fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
+        ImageButton ibHowToUse = view.findViewById(R.id.ibHowToUse);
         swipeContainer = view.findViewById(R.id.swipeContainer);
 
         // populate pantry list
@@ -117,6 +118,12 @@ public class PantryListFragment extends Fragment {
             }
         });
 
+        ibHowToUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo: open how to use dialog
+            }
+        });
 
         fabtnSuggestRecipes.setOnClickListener(new View.OnClickListener() {
             @Override

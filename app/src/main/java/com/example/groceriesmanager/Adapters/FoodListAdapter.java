@@ -138,6 +138,7 @@ public class FoodListAdapter extends
             }
             else{
                 tvFoodItemQty.setVisibility(View.VISIBLE);
+                tvFoodItemMeasure.setVisibility(View.VISIBLE);
                 tvFoodItemQty.setText(foodItem.getQuantity());
                 tvFoodItemMeasure.setText(foodItem.getMeasure());
             }

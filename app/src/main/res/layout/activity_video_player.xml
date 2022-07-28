@@ -24,13 +24,13 @@
         android:background="@null"
         android:contentDescription="button to exit video player"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
-        app:tint="@color/dark_grey"
         app:layout_constraintBottom_toTopOf="@+id/ytPlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="@color/dark_grey" />
 
     <TextView
         android:id="@+id/tvVideoTitle"

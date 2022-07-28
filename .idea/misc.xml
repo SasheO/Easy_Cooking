@@ -32,7 +32,7 @@
         <entry key="app/src/main/res/layout/fragment_saved_recipes.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/fragment_user_profile.xml" value="0.24213836477987422" />
         <entry key="app/src/main/res/layout/fragment_user_profile2.xml" value="0.20208333333333334" />
-        <entry key="app/src/main/res/layout/fragment_youtube_search.xml" value="0.19012345679012346" />
+        <entry key="app/src/main/res/layout/fragment_youtube_search.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_food_category.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/item_food_list.xml" value="0.30362116991643456" />
         <entry key="app/src/main/res/layout/item_food_list2.xml" value="0.335" />
