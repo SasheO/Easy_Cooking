@@ -142,15 +142,18 @@ public class GroceryListFragment extends Fragment {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         String process = data.getExtras().getString("process");
-                        FoodItem foodItem = data.getParcelableExtra("fooditem");
+                        FoodItem foodItem = data.getParcelableExtra("foodItem");
 
                         if (Objects.equals(process, "new")){ // if creating new food item
+                            Log.i(TAG, "new item id: " + foodItem.getObjectId());
                             groceryList.add(0, foodItem); // add it to recycler view
                             adapter.notifyDataSetChanged();
                         }
                         else { // if editing a food item
+                            Log.i(TAG, "edited item id: " + foodItem.getObjectId());
                             for (int i=0; i<groceryList.size(); i++){
                                 if (foodItem.hasSameId(groceryList.get(i))){
+                                    Log.i(TAG, "grocery item id: " + groceryList.get(i).getObjectId());
                                     groceryList.set(i, foodItem); // update the food item in the recycler view
                                     adapter.notifyDataSetChanged();
                                     break;
