@@ -74,6 +74,10 @@ dependencies {
 
     // for formatting time
     implementation 'org.ocpsoft.prettytime:prettytime:5.0.2.Final'
+
+    // swipe to refresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    
     // for lemmatization
 //    implementation 'org.apache.opennlp:opennlp:2.0.0'
 }

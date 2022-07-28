@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
@@ -39,6 +40,7 @@ public class GroceryListFragment extends Fragment {
     private static final String TAG = "GroceryListFragment";
     public FoodListAdapter adapter;
     private static final String type = "grocery";
+    private SwipeRefreshLayout swipeContainer;
 
     // required empty constructor
     public GroceryListFragment() {}
@@ -58,6 +60,7 @@ public class GroceryListFragment extends Fragment {
         // Setup any handles to view objects here
         rvGroceryList = (RecyclerView) view.findViewById(R.id.rvGroceryList);
         ibAddGroceryItem = view.findViewById(R.id.ibAddGroceryItem);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         groceryList = new ArrayList<>();
         queryGroceryList();
         adapter = new FoodListAdapter(getContext(), groceryList, type);
@@ -66,6 +69,23 @@ public class GroceryListFragment extends Fragment {
         rvGroceryList.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvGroceryList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                queryGroceryList();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +123,9 @@ public class GroceryListFragment extends Fragment {
                     adapter.clear();
                     groceryList.addAll(objects);
                     adapter.notifyDataSetChanged();
+                    if (swipeContainer.isRefreshing()){
+                        swipeContainer.setRefreshing(false);
+                    }
                 }
             }
         });
