@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         // for sdk >= 26, a notification channel must be created to see notifications
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "notifyExpiryDateChannel";
-            String description = "Channel for expiring foods reminder";
+            String description = "Expiry Date Reminders";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("notifyExpiryDate", name, importance);
             channel.setDescription(description);
@@ -127,20 +127,5 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
-    ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    // If the user comes back to this activity from EditActivity
-                    // with no error or cancellation
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        // Get the data passed from EditActivity
-                        String editedString = data.getExtras().getString("newString");
-                    }
-                }
-            });
 
 }
