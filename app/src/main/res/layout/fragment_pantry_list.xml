@@ -20,11 +20,11 @@
         android:id="@+id/ibHowToUse"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignTop="@id/tvTitle"
+        android:layout_alignBottom="@id/tvTitle"
         android:layout_toStartOf="@+id/ibAddPantryItem"
         android:background="@null"
         android:contentDescription="Add new item button"
-        android:layout_alignBottom="@id/tvTitle"
-        android:layout_alignTop="@id/tvTitle"
         app:srcCompat="@android:drawable/ic_dialog_info"
         app:tint="@color/pale_blue" />
 

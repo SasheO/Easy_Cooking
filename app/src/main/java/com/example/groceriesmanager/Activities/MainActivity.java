@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Fragments.GroceryListFragment;
+import com.example.groceriesmanager.Fragments.HowToUseFragment;
 import com.example.groceriesmanager.Fragments.PantryListFragment;
 import com.example.groceriesmanager.Fragments.RecipeSearchFragment;
 import com.example.groceriesmanager.Fragments.UserProfileFragment;
@@ -41,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public AnimatedBottomBar bottomNavigationView; // got AnimateBottomBar class from https://github.com/droppers/animatedbottombar
     // these lines below are necessary to be able to refer to the fragments from another fragment via the activity
-    final FragmentManager fragmentManager = getSupportFragmentManager();
-    public GroceryListFragment groceryListFragment = new GroceryListFragment();
+    public final FragmentManager fragmentManager = getSupportFragmentManager();
+    public GroceryListFragment groceryListFragment = new GroceryListFragment(MainActivity.this);
     public PantryListFragment pantryListFragment = new PantryListFragment(MainActivity.this);
     public UserProfileFragment userProfileFragment = new UserProfileFragment();
     public RecipeSearchFragment recipeSearchFragment = RecipeSearchFragment.newInstance("");
     public YoutubeSearchFragment youtubeSearchFragment = new YoutubeSearchFragment();
-
+    public HowToUseFragment howToUseFoodListFragment = HowToUseFragment.newInstance("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

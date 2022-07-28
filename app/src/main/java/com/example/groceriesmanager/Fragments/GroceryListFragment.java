@@ -20,9 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
+import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
-import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -41,9 +41,14 @@ public class GroceryListFragment extends Fragment {
     public FoodListAdapter adapter;
     private static final String type = "grocery";
     private SwipeRefreshLayout swipeContainer;
+    private MainActivity context;
 
     // required empty constructor
     public GroceryListFragment() {}
+
+    public GroceryListFragment(MainActivity context) {
+        this.context = context;
+    }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -90,7 +95,8 @@ public class GroceryListFragment extends Fragment {
         ibHowToUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: open how to use dialog
+                // show how to use dialog fragment
+                context.howToUseFoodListFragment.show(context.fragmentManager, "How To Use Pantry");
             }
         });
 
