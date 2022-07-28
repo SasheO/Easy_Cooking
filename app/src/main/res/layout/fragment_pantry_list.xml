@@ -42,12 +42,20 @@
         android:layout_alignBottom="@id/tvSortAccordingTo"
         android:layout_toEndOf="@id/tvSortAccordingTo" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPantryList"
-        android:layout_width="match_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
         android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tvSortAccordingTo" />
+        android:layout_below="@id/tvSortAccordingTo">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPantryList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="60dp"

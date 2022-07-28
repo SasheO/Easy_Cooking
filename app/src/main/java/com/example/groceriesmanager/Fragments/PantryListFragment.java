@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
@@ -48,6 +49,7 @@ public class PantryListFragment extends Fragment {
     public FoodListAdapter adapter;
     private static final String type = "pantry";
     private MainActivity currentActivity;
+    private SwipeRefreshLayout swipeContainer;
 
     // required empty constructor
     public PantryListFragment() {}
@@ -70,6 +72,7 @@ public class PantryListFragment extends Fragment {
         RecyclerView  rvPantryList = view.findViewById(R.id.rvPantryList);
         ImageButton ibAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         FloatingActionButton fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
 
         // populate pantry list
         pantryList = new ArrayList<>();
@@ -122,6 +125,20 @@ public class PantryListFragment extends Fragment {
             }
         });
 
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                queryPantryList();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         ibAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,6 +287,9 @@ public class PantryListFragment extends Fragment {
                     adapter.clear();
                     pantryList.addAll(objects);
                     adapter.notifyDataSetChanged();
+                    if (swipeContainer.isRefreshing()){
+                        swipeContainer.setRefreshing(false);
+                    }
                 }
             }
         });
@@ -287,7 +307,7 @@ public class PantryListFragment extends Fragment {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         String process = data.getExtras().getString("process");
-                        FoodItem foodItem = data.getParcelableExtra("fooditem");
+                        FoodItem foodItem = data.getParcelableExtra("foodItem");
 
                         if (Objects.equals(process, "new")){ // if creating new food item
                             pantryList.add(0, foodItem); // add it to recycler view
