@@ -1,7 +1,10 @@
 package com.example.groceriesmanager.Fragments;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,8 +70,11 @@ public class PantryListFragment extends Fragment {
         RecyclerView  rvPantryList = view.findViewById(R.id.rvPantryList);
         ImageButton ibAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         FloatingActionButton fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
+
+        // populate pantry list
         pantryList = new ArrayList<>();
         queryPantryList();
+
         adapter = new FoodListAdapter(currentActivity, pantryList, type);
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
@@ -88,7 +94,6 @@ public class PantryListFragment extends Fragment {
         spinnerSortAccordingTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // todo: implement cleaner way of identifying which item is selected
                 String selection = spinnerSortAccordingTo.getItemAtPosition(position).toString();
                 if (Objects.equals(selection, "default")){
                     queryPantryList();
@@ -269,6 +274,9 @@ public class PantryListFragment extends Fragment {
             }
         });
     }
+
+
+
     public ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -278,7 +286,6 @@ public class PantryListFragment extends Fragment {
                     // with no error or cancellation
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        // todo: Get the data passed from EditActivity
                         String process = data.getExtras().getString("process");
                         FoodItem foodItem = data.getParcelableExtra("fooditem");
 

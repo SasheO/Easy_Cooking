@@ -147,7 +147,6 @@ public class UserProfileFragment extends Fragment {
         spinnerExpandSettings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // todo: implement cleaner way of identifying which item is selected
                 String selection = spinnerExpandSettings.getItemAtPosition(position).toString();
                 if (Objects.equals(selection, "Log Out")){
                     ParseUser.logOutInBackground(new LogOutCallback() {

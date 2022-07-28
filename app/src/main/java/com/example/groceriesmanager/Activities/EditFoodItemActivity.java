@@ -1,9 +1,17 @@
 package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +28,7 @@ import android.widget.Toast;
 import com.example.groceriesmanager.Adapters.FoodCategorySpinnerAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
+import com.example.groceriesmanager.ReminderBroadcastReceiver;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -52,6 +61,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
         Spinner spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
+        ImageButton ibFoodMeasure = findViewById(R.id.ibFoodMeasure);
         Spinner spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
         Button btnSave = findViewById(R.id.btnSave);
         Button btnCancel = findViewById(R.id.btnCancel);
@@ -85,6 +95,14 @@ public class EditFoodItemActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.spinner_item_food_category);
         spinnerFoodCategory.setAdapter(adapter);
 
+        ibFoodMeasure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinnerFoodMeasure.setVisibility(View.VISIBLE);
+                spinnerFoodMeasure.performClick();
+            }
+        });
+
         // if intent process is edit, get the food item passed in and set the values in the edit text, etc
         if (Objects.equals(process, "edit")){
             tvTitle.setText("Edit Food Item"); // change title from "create food item"
@@ -93,28 +111,36 @@ public class EditFoodItemActivity extends AppCompatActivity {
             etFoodQty.setText(foodItem.getQuantity());
             // todo: fix this spinner measure below. it does not select the food type when opened
             etFoodMeasure.setText(foodItem.getMeasure());
+            if (Arrays.asList(getResources().getStringArray(R.array.food_measures)).contains(foodItem.getMeasure())){
+                spinnerFoodMeasure.setSelection(Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(foodItem.getMeasure()));
+            }
+
             if (foodItem.getExpiryDate()!=null){
                 int year = foodItem.getExpiryDate().getYear()+1900; // the addition is because only three numbers are returned and any 21st century year starts with 1
-                int month = foodItem.getExpiryDate().getMonth();
+                int month = foodItem.getExpiryDate().getMonth()+1; // add one to fix error in etExpiryDate
                 int day = foodItem.getExpiryDate().getDate();
                 selectedYear = year;
-                selectedMonth = month;
+                selectedMonth = month-1; // subtract one to fix error in date picker
                 selectedDayOfMonth = day;
                 etExpiryDate.setText(year + "/" + month + "/" + day);
             }
         }
 
-//        spinnerFoodMeasure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                etFoodMeasure.setText(spinnerFoodCategory.getSelectedItem().toString());
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        spinnerFoodMeasure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position!=0){
+                Log.i(TAG, "selected: " + position + spinnerFoodMeasure.getSelectedItem().toString());
+                etFoodMeasure.setText(spinnerFoodMeasure.getItemAtPosition(position).toString());
+                spinnerFoodMeasure.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spinnerFoodMeasure.setVisibility(View.GONE);
+            }
+        });
 
         ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,10 +266,20 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem.remove(FoodItem.KEY_CATEGORY);
         }
         if (foodStruct.expiryDate!=null){
-            foodItem.setExpiryDate(foodStruct.expiryDate);
+            if (!Objects.equals(foodStruct.type, "pantry")){ // only pantry items should have expiry dates
+                foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
+                // todo (optional): check if notification scheduled and remove it
+            }
+            else {
+                foodItem.setExpiryDate(foodStruct.expiryDate);
+                setNotification(foodStruct.expiryDate, foodStruct.foodName);
+            }
         }
         else {
             foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
+            /* todo: check if notification scheduled and remove it
+            * (stretch) only include notification if it is a vegetable, for five days after creation date
+             */
         }
 
         foodItem.saveInBackground(new SaveCallback() {
@@ -282,6 +318,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         if (foodStruct.expiryDate!=null){
             newFoodItem.setExpiryDate(foodStruct.expiryDate);
             Log.i(TAG, "expiry date: " + newFoodItem.getExpiryDate().toString());
+            setNotification(foodStruct.expiryDate, foodStruct.foodName);
         }
         else {
             newFoodItem.remove(FoodItem.KEY_EXPIRY_DATE);
@@ -310,6 +347,64 @@ public class EditFoodItemActivity extends AppCompatActivity {
             }
         });
         }
+
+    private void setNotification(Date expiryDate, String name){
+        // todo: schedule notification 1-5 days before expiry. check if up to three - five days already.
+        Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
+        intent.putExtra("name", name);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+         /* set notification based on expiry date
+         * 1. get epiry date in milliseconds
+         * 2. subtract a day from it. if it is earlier than today, recursively subtract less days until it isn't.
+         * 3. program the notification for then.
+         * */
+        long expiryTimeInMilliseconds = expiryDate.getTime();
+        Log.i(TAG, "expiryTimeInMilliseconds: " + expiryTimeInMilliseconds);
+
+        long currentTimeInMillis = System.currentTimeMillis();
+        Log.i(TAG, "currentTimeInMillis: " + currentTimeInMillis);
+
+        long twelveHoursInMillis = 12 * 3600000;
+        long fiveDaysBefore = twelveHoursInMillis * 7;
+        long threeDaysBefore = twelveHoursInMillis * 5;
+
+        long triggerAtMillis = expiryTimeInMilliseconds - fiveDaysBefore;
+        if (triggerAtMillis > currentTimeInMillis){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        }
+        else {
+            triggerAtMillis = expiryTimeInMilliseconds - threeDaysBefore;
+        }
+
+        if (triggerAtMillis > currentTimeInMillis){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        }
+        else {
+            triggerAtMillis = expiryTimeInMilliseconds - twelveHoursInMillis;
+        }
+
+        if (triggerAtMillis > currentTimeInMillis){
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+        }
+
+//        // notifications for 10 seconds after (for testing only)
+//        Intent intent = new Intent(EditFoodItemActivity.this, ReminderBroadcastReceiver.class);
+//        intent.putExtra("name", name);
+//        intent.putExtra("fragment", "pantry");
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditFoodItemActivity.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+//        // using alarm service for receiving intents at time of choosing for notifications i.e. at time before expiry date
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//        long timeAtButtonClick = System.currentTimeMillis();
+//        long timeDelayForNotificationInMillis = 1000 * 10;
+//        // the arguments for set are the type of alarm, the time it goes off and the action to take when it goes off
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, timeDelayForNotificationInMillis + timeAtButtonClick, pendingIntent);
+    }
 
 
 }

@@ -16,6 +16,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // create notification channel for sending alerts
+        createNotificationChannel();
+
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // when you first open the main activity, the grocerylist fragment shows first
@@ -108,19 +114,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    // If the user comes back to this activity from EditActivity
-                    // with no error or cancellation
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        // Get the data passed from EditActivity
-                        String editedString = data.getExtras().getString("newString");
-                    }
-                }
-            });
+    private void createNotificationChannel(){
+        // for sdk >= 26, a notification channel must be created to see notifications
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "notifyExpiryDateChannel";
+            String description = "Expiry Date Reminders";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyExpiryDate", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
 }

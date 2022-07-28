@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (username.length() == 0) {
                     Toast.makeText(RegisterActivity.this, "please choose a username", Toast.LENGTH_LONG).show();
                 }
-                else if (password.length() == 0){ // todo: change to checks for valid password complexity
+                else if (password.length() == 0){ // todo: change to checks for sufficient password complexity
                     Toast.makeText(RegisterActivity.this, "please type a password", Toast.LENGTH_LONG).show();
                 }
                 else if (!isValidEmail(email)){
