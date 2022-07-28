@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -30,6 +33,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,6 +68,7 @@ public class GroceryListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
+        Spinner spinnerSortAccordingTo = view.findViewById(R.id.spinnerSortAccordingTo);
         rvGroceryList = (RecyclerView) view.findViewById(R.id.rvGroceryList);
         ibAddGroceryItem = view.findViewById(R.id.ibAddGroceryItem);
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -76,6 +82,14 @@ public class GroceryListFragment extends Fragment {
         // set the layout manager on the recycler view
         rvGroceryList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // spinner adapter to choose how to sort panty list
+        ArrayAdapter<CharSequence> sortGroceryListAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.grocery_list_sort_options, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        sortGroceryListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerSortAccordingTo.setAdapter(sortGroceryListAdapter);
+        spinnerSortAccordingTo.setSelection(0);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -91,6 +105,27 @@ public class GroceryListFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        spinnerSortAccordingTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = spinnerSortAccordingTo.getItemAtPosition(position).toString();
+                if (Objects.equals(selection, "default")){
+                    queryGroceryList();
+                }
+                if (Objects.equals(selection, "category")){
+                    sortGroceryAccordingToCategory();
+                    // dataset not changed within sortPantryAccordingToCategory() because it is used in suggestRecipes() and we do not want the list to visually change there
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         ibHowToUse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +150,35 @@ public class GroceryListFragment extends Fragment {
             }
         });
     }
+    private void sortGroceryAccordingToCategory(){
+        /*
+        (pantry list max size is 30,)
+        this repeatedly moves items to the front to rearrange them in order of relevance when searching
+        */
+        List<FoodItem> organizedGroceryList = new ArrayList<>(groceryList);
+        for (FoodItem item: groceryList){
+            if (item.getFoodCategory()==null){
+                organizedGroceryList.remove(organizedGroceryList.indexOf(item));
+                organizedGroceryList.add(0, item);
+            }
+        }
+        // types is ordered according to importance
+        List<String> types = new ArrayList<>(Arrays.asList("other", "beverages/dairy", "fresh fruits", "canned food", "fresh vegetables", "protein", "grains/legumes"));
+        for (int i=0; i<types.size(); i++){
+            for (FoodItem item: groceryList){
+                if (item.getFoodCategory()!=null){
+                    if (Objects.equals(item.getFoodCategory(), types.get(i))){
+                        organizedGroceryList.remove(organizedGroceryList.indexOf(item));
+                        organizedGroceryList.add(0, item);
+                    }
+                }
+            }
+        }
+
+        groceryList.clear();
+        groceryList.addAll(organizedGroceryList);
+    }
+
 
     private void queryGroceryList() {
         // specify what type of data we want to query - FoodItem.class
