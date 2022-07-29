@@ -11,8 +11,8 @@ Please adhere to format.
     android:layout_height="wrap_content"
     android:layout_below="@id/tvFiltersLabel"
     android:orientation="horizontal"
-    android:visibility="gone"
     app:flexWrap="wrap"
+    android:visibility="gone"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -20,12 +20,16 @@ Please adhere to format.
             android:id="@+id/checkboxVegan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@drawable/checkbox_selector"
+            android:layout_marginEnd="2dp"
             android:text="vegan" />
 
         <CheckBox
             android:id="@+id/checkboxVegetarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@drawable/checkbox_selector"
+            android:layout_marginEnd="2dp"
             android:text="vegetarian" />
 
 
@@ -33,29 +37,39 @@ Please adhere to format.
             android:id="@+id/checkboxPescatarian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@drawable/checkbox_selector"
+            android:layout_marginEnd="2dp"
             android:text="pescatarian" />
 
         <CheckBox
             android:id="@+id/checkboxGlutenFree"
+            android:button="@drawable/checkbox_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
             android:text="gluten-free" />
 
         <CheckBox
             android:id="@+id/checkboxDairyFree"
             android:layout_width="wrap_content"
+            android:button="@drawable/checkbox_selector"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
             android:text="dairy-free" />
 
         <CheckBox
             android:id="@+id/checkboxSoyFree"
             android:layout_width="wrap_content"
+            android:button="@drawable/checkbox_selector"
+            android:layout_marginEnd="2dp"
             android:layout_height="wrap_content"
             android:text="soy-free" />
 
         <CheckBox
             android:id="@+id/checkboxPeanutFree"
             android:layout_width="wrap_content"
+            android:button="@drawable/checkbox_selector"
+            android:layout_marginEnd="2dp"
             android:layout_height="wrap_content"
             android:text="peanut-free" />
 
@@ -63,23 +77,31 @@ Please adhere to format.
             android:id="@+id/checkboxKosher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:button="@drawable/checkbox_selector"
             android:text="kosher" />
 
         <CheckBox
             android:id="@+id/checkboxPorkFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:button="@drawable/checkbox_selector"
             android:text="pork-free" />
 
         <CheckBox
             android:id="@+id/checkboxAlcoholFree"
             android:layout_width="wrap_content"
+            android:button="@drawable/checkbox_selector"
+            android:layout_marginEnd="2dp"
             android:layout_height="wrap_content"
             android:text="alcohol-free" />
 
         <CheckBox
             android:id="@+id/checkboxImmunoSupportive"
+            android:button="@drawable/checkbox_selector"
             android:layout_width="wrap_content"
+            android:layout_marginEnd="2dp"
             android:layout_height="wrap_content"
             android:text="immuno-supportive" />
 
@@ -87,11 +109,15 @@ Please adhere to format.
             android:id="@+id/checkboxKetoFriendly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:button="@drawable/checkbox_selector"
             android:text="keto-friendly" />
 
         <CheckBox
             android:id="@+id/checkboxNoOilAdded"
             android:layout_width="wrap_content"
+            android:button="@drawable/checkbox_selector"
+            android:layout_marginEnd="2dp"
             android:layout_height="wrap_content"
             android:text="no-oil-added" />
 
