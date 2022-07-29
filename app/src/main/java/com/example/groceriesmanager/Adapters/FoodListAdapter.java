@@ -204,7 +204,7 @@ public class FoodListAdapter extends
                         }
                         else{
                             selected.remove(foodItem);
-                            rlFoodItem.setBackgroundColor(context.getResources().getColor(R.color.pale_blue));
+                            rlFoodItem.setBackgroundColor(context.getResources().getColor(R.color.item_bg_color));
                         }
                     }
                 }

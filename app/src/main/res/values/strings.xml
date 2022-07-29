@@ -45,7 +45,10 @@
         <item>category</item>
         <item>expiry date</item>
     </string-array>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="grocery_list_sort_options">
+        <item>default</item>
+        <item>category</item>
+    </string-array>
 
 </resources>

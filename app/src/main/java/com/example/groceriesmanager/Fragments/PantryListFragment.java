@@ -222,7 +222,7 @@ public class PantryListFragment extends Fragment {
                 organizedPantryList.add(0, item);
             }
         }
-        // types is ordered in s
+        // types is ordered according to importance
         List<String> types = new ArrayList<>(Arrays.asList("other", "beverages/dairy", "fresh fruits", "canned food", "fresh vegetables", "protein", "grains/legumes"));
         for (int i=0; i<types.size(); i++){
             for (FoodItem item: pantryList){
